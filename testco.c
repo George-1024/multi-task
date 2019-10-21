@@ -23,15 +23,15 @@ void task_3(void *arg, void *context);
 
 void debug_stack(int bottom, int top)
 {
-	int i = 0;
-	for(i = bottom; i<top; i++)
-	  printf("stack[%d]=%x\n",i,stack[i]);
+    int i = 0;
+    for(i = bottom; i<top; i++)
+        printf("stack[%d]=%x\n",i,stack[i]);
 }
 
 
 void task_1(void *arg, void *context)
 {
-	printf("task_1 started\n");
+    printf("task_1 started\n");
     while(1)
     {
         printf("switching to task_2\n");
@@ -43,7 +43,7 @@ void task_1(void *arg, void *context)
 void task_2(void *arg, void *context)
 {
     printf("task_2 started\n");
-	sp3 = create_frame(&stack[600], (frame_action_t)task_3, 0);
+    sp3 = create_frame(&stack[600], (frame_action_t)task_3, 0);
     while(1)
     {
         printf("switching to task_0\n");
@@ -69,12 +69,12 @@ int main(int argc, char **argv)
     sp1 = create_frame(&stack[200], (frame_action_t)task_1, 0);
     sp2 = create_frame(&stack[400], (frame_action_t)task_2, 0);
 
-	debug_stack(150, 200);
+    debug_stack(150, 200);
     while(1)
     {
         printf("switching to task_1\n");
-		//void * switch_frame(void **old_frame,void *new_frame, void *arg);
-		switch_frame(&sp0, sp1, 0);
+        //void * switch_frame(void **old_frame,void *new_frame, void *arg);
+        switch_frame(&sp0, sp1, 0);
         printf("task_0 in control\n");
     }
 	
