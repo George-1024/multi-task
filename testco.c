@@ -21,18 +21,20 @@ void task_1(void *arg, void *context);
 void task_2(void *arg, void *context);
 void task_3(void *arg, void *context);
 
+void debug_stack(int bottom, int top)
+{
+	int i = 0;
+	for(i = bottom; i<top; i++)
+	  printf("stack[%d]=%x\n",i,stack[i]);
+}
 
 
 void task_1(void *arg, void *context)
 {
-	int *p=arg;
 	printf("task_1 started\n");
-	//for(int i =0;i<200;i++)
-	//  printf("stack[%d]=%x\n",i,stack[i]);
     while(1)
     {
-        //printf("switching to task_2,%p\n",p);
-		//printf("arg=%d\n",*((int*)arg));
+        printf("switching to task_2\n");
         switch_frame(&sp1, sp2, 0);
         printf("task_1 in control\n");
     }
@@ -67,8 +69,7 @@ int main(int argc, char **argv)
     sp1 = create_frame(&stack[200], (frame_action_t)task_1, 0);
     sp2 = create_frame(&stack[400], (frame_action_t)task_2, 0);
 
-	//for(int i =0;i<200;i++)
-	//  printf("stack[%d]=%x\n",i,stack[i]);
+	debug_stack(150, 200);
     while(1)
     {
         printf("switching to task_1\n");
